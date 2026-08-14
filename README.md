@@ -2,7 +2,7 @@
 
 Private reproducibility repository for:
 
-> **Training Randomness Can Dominate Uncertainty in Architecture Ablations: A Preregistered Two-Domain Study of Gated Load Forecasting**
+> **Training Randomness Can Dominate Uncertainty in Architecture Ablations: Variance Decomposition, Preregistered Replication, and a Non-Energy Benchmark**
 
 The study quantifies how stochastic training and finite evaluation samples affect architectural ablations in decomposition-based load forecasting. It includes a preregistered second-domain replication and a non-energy feature-identity ablation on 17 OpenML-CC18 classification tasks.
 

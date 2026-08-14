@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software or results, please cite the associated manuscript."
-title: "Training Randomness Can Dominate Uncertainty in Architecture Ablations: A Preregistered Two-Domain Study of Gated Load Forecasting"
+title: "Training Randomness Can Dominate Uncertainty in Architecture Ablations: Variance Decomposition, Preregistered Replication, and a Non-Energy Benchmark"
 type: software
 authors:
   - family-names: Tanchenko
