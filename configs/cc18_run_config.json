@@ -1,0 +1,173 @@
+{
+  "pipeline_version": "v5 (post department-head corrections + class-weighted loss fix)",
+  "generated": "2026-08-13",
+
+  "phase1_dataset_selection": {
+    "script": "01_select_datasets.py",
+    "source": "OpenML-CC18 (suite id 99)",
+    "selection_seed": 20260813,
+    "n_datasets": 17,
+    "filters": {
+      "min_test_rows_estimated_at_80_20_split": 250,
+      "n_classes_min": 2,
+      "n_classes_max": 20
+    },
+    "excluded_names": [
+      "electricity", "Fashion-MNIST", "mfeat-pixel", "optdigits", "satimage",
+      "mfeat-karhunen", "pendigits", "CIFAR_10", "mnist_784", "texture",
+      "mfeat-morphological", "har", "wall-robot-navigation", "numerai28.6",
+      "GesturePhaseSegmentationProcessed", "ozone-level-8hr", "madelon",
+      "phoneme", "segment", "semeion", "splice", "Bioresponse", "wilt"
+    ],
+    "excluded_name_patterns": ["mfeat-"],
+    "exclusion_reasons": [
+      "topical overlap with the paper's own domain (energy / time-series)",
+      "features without a semantic identity (raw pixels, pixel-derived transforms, digitizer stroke coordinates)",
+      "windowed sensor/signal data (same class as electricity, one level more general)",
+      "anonymized or unnamed features (identity-ablation question cannot be posed)",
+      "near-duplicate of another selected dataset under a different encoding (dna/splice)"
+    ],
+    "tabzilla_hard_overlap_flag_note": "in_tabzilla_hard_unverified field reconstructed from secondary sources, not verified against github.com/naszilla/tabzilla byte-for-byte -- robustness annotation only, not a selection criterion",
+    "final_17_datasets": [
+      "adult", "bank-marketing", "car", "cmc", "connect-4", "dna",
+      "first-order-theorem-proving", "jm1", "jungle_chess_2pcs_raw_endgame_complete",
+      "kc1", "kr-vs-kp", "nomao", "pc3", "pc4", "sick", "spambase", "steel-plates-fault"
+    ]
+  },
+
+  "phase0_5_preflight_check": {
+    "script": "00_preflight_check.py",
+    "checks": [
+      "numeric column >=95% missing in training fold",
+      "numeric column zero variance after median imputation",
+      "categorical column with a single category in training fold",
+      "minority class fraction < 10% (warn) or < 2% (severe)",
+      "actual official split sizes vs. Phase-1 80/20 estimate"
+    ]
+  },
+
+  "phase2_training": {
+    "script": "02_run_experiment.py",
+    "official_split": {
+      "source": "task.get_train_test_split_indices",
+      "repeat": 0, "fold": 0, "sample": 0,
+      "note": "Phase-1 n_test_est assumed an 80/20 split; official CC-18 folds are ~10-fold CV and turned out smaller -- see preflight/Phase-2 logged comparison per dataset"
+    },
+    "validation_split": {
+      "fraction": 0.10,
+      "carved_from": "official training fold only",
+      "split_seed": 20260813,
+      "stratified": true,
+      "fixed_across_seeds_and_configs": true
+    },
+    "preprocessing": {
+      "fit_on": "training-sub fold only (no leakage into val/test)",
+      "numeric": "median imputation (train-fold median; all-missing columns fall back to 0.0), then StandardScaler",
+      "categorical": "OrdinalEncoder, unseen categories mapped to a dedicated bucket per column"
+    },
+    "model": {
+      "architecture": "FT-Transformer (Gorishniy et al., 2021), compact reimplementation",
+      "ablated_component": "per-feature identity bias b_j in the feature tokenizer T_j(x) = b_j + f_j(x)",
+      "d_token": 64,
+      "n_layers": 3,
+      "n_heads": 8,
+      "dropout": 0.1,
+      "ffn_activation": "gelu",
+      "norm_first": true
+    },
+    "optimization": {
+      "optimizer": "AdamW",
+      "lr": 0.001,
+      "weight_decay": 1e-05,
+      "batch_size": 256,
+      "max_epochs": 100,
+      "early_stopping_patience": 12,
+      "early_stopping_metric": "validation balanced accuracy",
+      "restore_best_weights": true,
+      "training_loss": "cross-entropy, class-weighted by inverse training-fold frequency (N / (K * N_class)); fixes majority-class collapse observed on 'sick' under unweighted loss"
+    },
+    "seeds": [42, 7, 13, 99, 2025],
+    "n_configs_per_dataset": 2,
+    "n_runs_total": 170,
+    "resumable": "one artifacts/task_<id>_fold_0.npz per dataset; existing files skipped on rerun",
+    "known_deviations": [
+      "sick (task 3021): initial run collapsed to majority-class prediction (val balanced acc = 0.5000 for all 5 seeds x 2 configs) due to an all-missing numeric column (median() of all-NaN column is NaN, silently reaching StandardScaler) compounded by severe class imbalance (~6% positive) under unweighted cross-entropy; fixed by (a) falling back missing-median columns to 0.0 and (b) class-weighted training loss; full 170 runs were then repeated (not just sick) since the loss-weighting change affects all datasets"
+    ]
+  },
+
+  "phase3_analysis": {
+    "script": "03_analyze.py",
+    "completeness_gate": "refuses to compute anything unless all 17 tasks have an artifact",
+    "variance_decomposition": {
+      "reused_from": "seed_window_simgrid.py (Section 3 of the revision package, unmodified)",
+      "functions": ["crossed_anova", "block_bootstrap_vwin", "f_interval_share"],
+      "window_definition": "each individual test example is its own column (W = n_test); NOT synthetic 10-40 example blocks",
+      "block_length": 1,
+      "block_length_rationale": "CC-18 test examples are exchangeable (CC-18 excludes time series by construction); block=1 is an ordinary iid bootstrap, appropriate because there is no real neighbourhood structure to preserve, unlike the household/ECL time-window setting",
+      "n_bootstrap": 1000,
+      "alpha": 0.05
+    },
+    "metrics": {
+      "primary": {
+        "name": "balanced error (percentage points)",
+        "formula": "L_i = 100 * (N_test / (n_classes * N_test_class[y_i])) * 1(pred_i != y_i)",
+        "identity": "mean(L_i) over the test fold equals 100 x (1 - balanced_accuracy) exactly (finite-sample identity, self-tested in code)"
+      },
+      "secondary": {
+        "name": "cross-entropy (sensitivity metric)",
+        "formula": "per-example loss_ablated - loss_full, both raw model cross-entropy"
+      }
+    },
+    "degenerate_case_handling": "exactly-zero variance in both components (sig2_seed and V_win) is flagged (degenerate_zero_variance=true) rather than raised; can be a genuine null result or a sign of an upstream degenerate run"
+  },
+
+  "phase4_flip_diagnostic": {
+    "script": "04_diagnose_flip_sparsity.py",
+    "purpose": "tests whether low balanced-error seed share correlates with a low argmax-flip rate between configs",
+    "result_summary": "weak-to-moderate correlation only (Pearson flip_rate vs balanced_error_seed_share = 0.40; balanced_error_seed_share vs cross_entropy_seed_share = 0.24) -- discretization is a contributing factor, not the dominant explanation; per-dataset share estimates at k=5 seeds are inherently noisy regardless of metric"
+  },
+
+  "phase5_pooling": {
+    "script": "05_pool_reml_hk.py",
+    "method": "random-effects meta-analysis, REML for between-dataset variance (tau^2), Hartung-Knapp adjustment for the pooled CI (t on k-1 df)",
+    "validated_against": "statsmodels.stats.meta_analysis.combine_effects (Paule-Mandel + HKSJ) and a published textbook example (Borenstein et al., 2009, Table 12.2) -- pooled effect/CI matched to 3-4 decimal places in both a null-heterogeneity and a substantial-heterogeneity synthetic case",
+    "se_recovery": "per-dataset SE recovered from the already-computed t4 CI: SE_i = (ci_hi_i - ci_lo_i) / (2 * t_{0.975,4}), not recomputed from raw data",
+    "k_datasets": 17,
+    "alpha": 0.05,
+    "results": {
+      "balanced_error": {
+        "tau2_reml": 1.4579,
+        "I2_pct": 71.6,
+        "pooled_effect_pp": 0.930,
+        "hk_ci": [-0.039, 1.898],
+        "hk_significant": false,
+        "naive_re_ci": [0.196, 1.663],
+        "naive_re_would_have_been_significant": true,
+        "note": "naive-vs-HK discrepancy is a direct illustration of the paper's own t_{S-1}-vs-normal-quantile argument (Section 3.2), applied one level up at the pooling stage"
+      },
+      "cross_entropy": {
+        "tau2_reml": 0.0010,
+        "I2_pct": 83.9,
+        "pooled_effect": 0.024,
+        "hk_ci": [0.001, 0.046],
+        "hk_significant": true
+      },
+      "registered_success_criterion": "median seed share > 50%",
+      "criterion_met": false,
+      "median_seed_share_balanced_error_pct": 3.0,
+      "median_seed_share_cross_entropy_pct": 50.4,
+      "datasets_above_50pct_share_balanced_error": "2/17",
+      "datasets_above_50pct_share_cross_entropy": "9/17"
+    }
+  },
+
+  "environment": {
+    "note": "python/torch/cuda supplied by the user; openml is the package used to fetch OpenML-CC18 (suite id 99) via openml.study.get_suite(99)",
+    "python_version": "3.13",
+    "torch_version": ">=2.1.0",
+    "cuda_version": ">=12.8",
+    "openml_version": "0.15.1",
+    "openml_suite_used": "OpenML-CC18, suite id 99",
+    "os": "Windows (PyCharm project uk_dale_project)"
+  }
+}

@@ -1,0 +1,205 @@
+{
+  "seed": 20260813,
+  "selection_rule": "CC-18 (suite 99), n_test>=250, n_classes in [2,20], excluding named datasets in EXCLUDE_NAMES and any dataset matching EXCLUDE_NAME_PATTERNS (topical overlap with the paper's own domain, features without a semantic identity, windowed sensor/signal data, or anonymized/unnamed features), simple random sample without replacement",
+  "excluded_names": [
+    "Bioresponse",
+    "CIFAR_10",
+    "Fashion-MNIST",
+    "GesturePhaseSegmentationProcessed",
+    "electricity",
+    "har",
+    "madelon",
+    "mfeat-karhunen",
+    "mfeat-morphological",
+    "mfeat-pixel",
+    "mnist_784",
+    "numerai28.6",
+    "optdigits",
+    "ozone-level-8hr",
+    "pendigits",
+    "phoneme",
+    "satimage",
+    "segment",
+    "semeion",
+    "splice",
+    "texture",
+    "wall-robot-navigation",
+    "wilt"
+  ],
+  "excluded_name_patterns": [
+    "mfeat-"
+  ],
+  "n_datasets": 17,
+  "tasks": [
+    {
+      "task_id": 7592,
+      "dataset_id": 1590,
+      "name": "adult",
+      "n_instances": 48842,
+      "n_classes": 2,
+      "n_test_est": 9768,
+      "in_tabzilla_hard_unverified": false,
+      "w_blocks": 40
+    },
+    {
+      "task_id": 14965,
+      "dataset_id": 1461,
+      "name": "bank-marketing",
+      "n_instances": 45211,
+      "n_classes": 2,
+      "n_test_est": 9042,
+      "in_tabzilla_hard_unverified": false,
+      "w_blocks": 40
+    },
+    {
+      "task_id": 146821,
+      "dataset_id": 40975,
+      "name": "car",
+      "n_instances": 1728,
+      "n_classes": 4,
+      "n_test_est": 346,
+      "in_tabzilla_hard_unverified": false,
+      "w_blocks": 13
+    },
+    {
+      "task_id": 23,
+      "dataset_id": 23,
+      "name": "cmc",
+      "n_instances": 1473,
+      "n_classes": 3,
+      "n_test_est": 295,
+      "in_tabzilla_hard_unverified": false,
+      "w_blocks": 11
+    },
+    {
+      "task_id": 146195,
+      "dataset_id": 40668,
+      "name": "connect-4",
+      "n_instances": 67557,
+      "n_classes": 3,
+      "n_test_est": 13511,
+      "in_tabzilla_hard_unverified": false,
+      "w_blocks": 40
+    },
+    {
+      "task_id": 167140,
+      "dataset_id": 40670,
+      "name": "dna",
+      "n_instances": 3186,
+      "n_classes": 3,
+      "n_test_est": 637,
+      "in_tabzilla_hard_unverified": false,
+      "w_blocks": 25
+    },
+    {
+      "task_id": 9985,
+      "dataset_id": 1475,
+      "name": "first-order-theorem-proving",
+      "n_instances": 6118,
+      "n_classes": 6,
+      "n_test_est": 1224,
+      "in_tabzilla_hard_unverified": false,
+      "w_blocks": 40
+    },
+    {
+      "task_id": 3904,
+      "dataset_id": 1053,
+      "name": "jm1",
+      "n_instances": 10885,
+      "n_classes": 2,
+      "n_test_est": 2177,
+      "in_tabzilla_hard_unverified": false,
+      "w_blocks": 40
+    },
+    {
+      "task_id": 167119,
+      "dataset_id": 41027,
+      "name": "jungle_chess_2pcs_raw_endgame_complete",
+      "n_instances": 44819,
+      "n_classes": 3,
+      "n_test_est": 8964,
+      "in_tabzilla_hard_unverified": true,
+      "w_blocks": 40
+    },
+    {
+      "task_id": 3917,
+      "dataset_id": 1067,
+      "name": "kc1",
+      "n_instances": 2109,
+      "n_classes": 2,
+      "n_test_est": 422,
+      "in_tabzilla_hard_unverified": true,
+      "w_blocks": 16
+    },
+    {
+      "task_id": 3,
+      "dataset_id": 3,
+      "name": "kr-vs-kp",
+      "n_instances": 3196,
+      "n_classes": 2,
+      "n_test_est": 639,
+      "in_tabzilla_hard_unverified": false,
+      "w_blocks": 25
+    },
+    {
+      "task_id": 9977,
+      "dataset_id": 1486,
+      "name": "nomao",
+      "n_instances": 34465,
+      "n_classes": 2,
+      "n_test_est": 6893,
+      "in_tabzilla_hard_unverified": true,
+      "w_blocks": 40
+    },
+    {
+      "task_id": 3903,
+      "dataset_id": 1050,
+      "name": "pc3",
+      "n_instances": 1563,
+      "n_classes": 2,
+      "n_test_est": 313,
+      "in_tabzilla_hard_unverified": false,
+      "w_blocks": 12
+    },
+    {
+      "task_id": 3902,
+      "dataset_id": 1049,
+      "name": "pc4",
+      "n_instances": 1458,
+      "n_classes": 2,
+      "n_test_est": 292,
+      "in_tabzilla_hard_unverified": false,
+      "w_blocks": 11
+    },
+    {
+      "task_id": 3021,
+      "dataset_id": 38,
+      "name": "sick",
+      "n_instances": 3772,
+      "n_classes": 2,
+      "n_test_est": 754,
+      "in_tabzilla_hard_unverified": false,
+      "w_blocks": 30
+    },
+    {
+      "task_id": 43,
+      "dataset_id": 44,
+      "name": "spambase",
+      "n_instances": 4601,
+      "n_classes": 2,
+      "n_test_est": 920,
+      "in_tabzilla_hard_unverified": false,
+      "w_blocks": 36
+    },
+    {
+      "task_id": 146817,
+      "dataset_id": 40982,
+      "name": "steel-plates-fault",
+      "n_instances": 1941,
+      "n_classes": 7,
+      "n_test_est": 388,
+      "in_tabzilla_hard_unverified": false,
+      "w_blocks": 15
+    }
+  ]
+}

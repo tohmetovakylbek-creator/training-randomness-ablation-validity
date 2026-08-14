@@ -1,0 +1,7 @@
+numpy>=1.26
+openml==0.15.1
+pandas>=2.1
+scikit-learn>=1.4
+scipy>=1.11
+statsmodels>=0.14
+torch>=2.1
