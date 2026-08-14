@@ -241,7 +241,7 @@ def main(nrep=3000):
     df = pd.DataFrame(rows)
     cols = ["grid"] + [c for c in df.columns if c != "grid"]
     df = df[cols]
-    df.to_csv("/home/claude/results_grid.csv", index=False)
+    df.to_csv("results_grid.csv", index=False)
     print(df.to_string(index=False))
     return df
 

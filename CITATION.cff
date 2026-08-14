@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software or results, please cite the associated manuscript."
-title: "Training Randomness Can Dominate Uncertainty in Architecture Ablations: Variance Decomposition, Preregistered Replication, and a Non-Energy Benchmark"
+title: "Training Randomness in Architecture Ablations: A Crossed Seed–Window Analysis with Preregistered Replication"
 type: software
 authors:
   - family-names: Tanchenko
