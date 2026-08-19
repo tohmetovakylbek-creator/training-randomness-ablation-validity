@@ -122,14 +122,13 @@ and `results_smoke/`, `results_timing*/`, `results_tuning/` (scratch runs).
 
 ## Not yet included
 
-- No file named `results_manifest.csv` — the machine-readable per-experiment
-  index (domain, units, seed count, evaluation count, component, outcome,
-  inferential status, source artifact) that the manuscript's Reproducibility
-  section and Supplementary Table S1 describe — exists anywhere in the
-  recovered project. It needs to be either located or generated before the
-  manuscript's claim about it is accurate; `results_master.json` is close for
-  the household study alone but doesn't cover ECL, generality checks, or
-  CC18, and isn't in the S1 registry's column format.
+- `results/results_manifest.csv` did not exist anywhere in the recovered
+  project. It has since been reconstructed (matching Supplementary Table
+  S1's five rows, with every number recomputed from the result files in
+  this repo rather than copied from the manuscript) — see
+  `docs/reproducibility.md` for exactly how, and for the caveat that it
+  should be reviewed rather than assumed correct since it was built, not
+  recovered.
 - A handful of scripts present in the original project were intentionally
   left out as outside this paper's reported scope: `ablation.py`,
   `tune_identity_lr.py`, `posthoc_full_vs_lean.py`, `run_all.py`.

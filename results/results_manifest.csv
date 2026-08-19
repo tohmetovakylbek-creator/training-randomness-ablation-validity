@@ -1,0 +1,6 @@
+experiment,domain_units,seed_count,evaluation_count,component,primary_outcome,inferential_status,source_artifact
+Household primary,Energy / 17 households,5,78-218,Mode identity,Seed share; MAE effect,Exploratory,results/household/results_master.json; results/household/variance/; results/household/meta/
+PatchTST,Energy / 17 households,5,78-218,RevIN,Seed share,Pre-specified,results/household/generality/summary.json (arch=patchtst)
+BiLSTM,Energy / 17 households,5,78-218,Attention pooling,Seed share,Pre-specified,results/household/generality/summary.json (arch=bilstm)
+ECL,Energy / 17 clients,5,120; 157,Mode identity,Median share / ratio,Preregistered,results/household/ecl/factorial_ecl.json; results/household/ecl_fullW/factorial_ecl.json
+OpenML-CC18,Tabular / 17 tasks,5,146-6756,Feature identity,Balanced error,Pre-specified scope probe,results/cc18/cc18_per_dataset_summary.csv
