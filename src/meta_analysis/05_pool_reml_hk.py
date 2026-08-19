@@ -40,9 +40,15 @@ Method (standard random-effects meta-analysis, e.g. Borenstein et al.,
 
 Run on: laptop or desktop, CPU only.
 """
+import os
+
 import numpy as np
 import pandas as pd
 from scipy import stats, optimize
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", ".."))
+SUMMARY_PATH = os.path.join(REPO_ROOT, "results", "cc18", "cc18_per_dataset_summary.csv")
 
 ALPHA = 0.05
 T4 = stats.t.ppf(1 - ALPHA / 2, 4)      # matches Section 3's t_{S-1}, S=5
@@ -130,7 +136,7 @@ def _self_test():
 def main():
     _self_test()
 
-    df = pd.read_csv("cc18_per_dataset_summary.csv")
+    df = pd.read_csv(SUMMARY_PATH)
     print(f"Pooling {len(df)} datasets.\n")
 
     for metric in ["balanced_error", "cross_entropy"]:

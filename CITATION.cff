@@ -3,10 +3,12 @@ message: "If you use this software or results, please cite the associated manusc
 title: "Training Randomness in Architecture Ablations: A Crossed Seed–Window Analysis with Preregistered Replication"
 type: software
 authors:
-  - family-names: Tanchenko
-    given-names: Liliya
   - family-names: Tokhmetov
     given-names: Akylbek
+  - family-names: Zhumagulova
+    given-names: Saule
+  - family-names: Tanchenko
+    given-names: Liliya
   - family-names: Musina
     given-names: Danel
 repository-code: "https://github.com/tohmetovakylbek-creator/training-randomness-ablation-validity"

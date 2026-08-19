@@ -34,8 +34,9 @@ Phase 2 (v2) -- incorporates the department head's corrections:
      failures; 03_analyze.py refuses to compute anything until exactly
      len(manifest) successful NPZ files are present.
 
-Run on: desktop (GPU). Needs manifest.csv (from Phase 1) in the same
-directory. Output: one artifacts/task_<task_id>_fold_0.npz per dataset.
+Run on: desktop (GPU). Needs data/manifests/cc18_manifest.csv (from
+Phase 1). Output: one artifacts/task_<task_id>_fold_0.npz per dataset,
+both resolved relative to the repository root.
 """
 import json
 import os
@@ -50,6 +51,10 @@ from sklearn.preprocessing import StandardScaler, OrdinalEncoder
 
 from ft_transformer import build_model
 
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", ".."))
+MANIFEST_PATH = os.path.join(REPO_ROOT, "data", "manifests", "cc18_manifest.csv")
+
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 SEEDS = [42, 7, 13, 99, 2025]         # matched to the rest of the paper
 SPLIT_SEED = 20260813                 # train/val split, fixed across seeds/configs
@@ -58,7 +63,7 @@ PATIENCE = 12
 BATCH_SIZE = 256
 LR = 1e-3
 VAL_FRACTION = 0.10                   # carved out of the official training fold
-OUT_DIR = "artifacts"
+OUT_DIR = os.path.join(REPO_ROOT, "artifacts")
 
 os.makedirs(OUT_DIR, exist_ok=True)
 
@@ -293,7 +298,7 @@ def run_dataset(row):
 
 
 def main():
-    manifest = pd.read_csv("manifest.csv")
+    manifest = pd.read_csv(MANIFEST_PATH)
 
     # Sanity check flagged separately from the department head's memo: n_test_est
     # in the manifest assumed an 80/20 holdout; the OFFICIAL OpenML split is

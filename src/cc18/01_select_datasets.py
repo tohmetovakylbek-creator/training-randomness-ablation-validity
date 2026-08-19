@@ -3,8 +3,9 @@ Phase 1 — reproducible selection of 17 datasets from OpenML-CC18.
 Run on: laptop (no GPU needed, just network access to openml.org).
 
 This script is the *entire* preregistered selection rule. Run it once,
-commit the two output files (manifest.json, manifest.csv) to the repo
-BEFORE any model is trained, and never edit them by hand afterwards.
+commit the two output files (data/manifests/cc18_manifest.json,
+data/manifests/cc18_manifest.csv) to the repo BEFORE any model is
+trained, and never edit them by hand afterwards.
 If the rule needs to change, that is a deviation and goes in the
 deviation log, not a silent edit here.
 
@@ -39,10 +40,18 @@ Selection rule (state this verbatim in the registration document):
      one pass rather than reacting name-by-name again.
 """
 import json
+import os
 import random
 
 import openml
 import pandas as pd
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", ".."))
+MANIFEST_DIR = os.path.join(REPO_ROOT, "data", "manifests")
+FULL_POOL_PATH = os.path.join(MANIFEST_DIR, "cc18_full_pool_for_review.csv")
+MANIFEST_CSV_PATH = os.path.join(MANIFEST_DIR, "cc18_manifest.csv")
+MANIFEST_JSON_PATH = os.path.join(MANIFEST_DIR, "cc18_manifest.json")
 
 SEED = 20260813
 N_DATASETS = 17
@@ -185,8 +194,9 @@ def main():
     # Dump the full pool (pre-filter) once, so a human can eyeball-classify
     # every remaining CC-18 name in one pass instead of discovering
     # problem datasets one redraw at a time.
-    df.sort_values("name").to_csv("full_pool_for_review.csv", index=False)
-    print(f"  wrote full_pool_for_review.csv ({len(df)} datasets) -- "
+    os.makedirs(MANIFEST_DIR, exist_ok=True)
+    df.sort_values("name").to_csv(FULL_POOL_PATH, index=False)
+    print(f"  wrote {FULL_POOL_PATH} ({len(df)} datasets) -- "
           f"review names before the next redraw instead of reacting round-by-round")
 
     name_pattern_hit = df.name.str.lower().str.startswith(EXCLUDE_NAME_PATTERNS)
@@ -206,8 +216,8 @@ def main():
     print(f"\nOverlap with TabZilla-hard (unverified list): "
           f"{chosen.in_tabzilla_hard_unverified.sum()} / {len(chosen)}")
 
-    chosen.to_csv("manifest.csv", index=False)
-    with open("manifest.json", "w") as f:
+    chosen.to_csv(MANIFEST_CSV_PATH, index=False)
+    with open(MANIFEST_JSON_PATH, "w") as f:
         json.dump(dict(
             seed=SEED,
             selection_rule="CC-18 (suite 99), n_test>=250, n_classes in [2,20], "
@@ -220,7 +230,7 @@ def main():
             n_datasets=len(chosen),
             tasks=chosen.to_dict(orient="records"),
         ), f, indent=2)
-    print("\nWrote manifest.csv and manifest.json. Commit both before Phase 2.")
+    print(f"\nWrote {MANIFEST_CSV_PATH} and {MANIFEST_JSON_PATH}. Commit both before Phase 2.")
 
 
 if __name__ == "__main__":

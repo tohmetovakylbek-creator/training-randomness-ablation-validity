@@ -38,10 +38,17 @@ Checks per task, using ONLY the official training fold (no leakage):
 Nothing here is a hard failure -- it's a report to read BEFORE spending
 GPU time, not a gate that blocks the real run.
 """
+import os
+
 import numpy as np
 import openml
 import pandas as pd
 from sklearn.model_selection import train_test_split
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", ".."))
+MANIFEST_PATH = os.path.join(REPO_ROOT, "data", "manifests", "cc18_manifest.csv")
+REPORT_PATH = os.path.join(REPO_ROOT, "results", "cc18", "cc18_preflight_report.csv")
 
 VAL_FRACTION = 0.10
 SPLIT_SEED = 20260813
@@ -110,7 +117,7 @@ def check_one_task(row):
 
 
 def main():
-    manifest = pd.read_csv("manifest.csv")
+    manifest = pd.read_csv(MANIFEST_PATH)
     rows = []
     for _, row in manifest.iterrows():
         print(f"checking {row['name']}...")
@@ -122,7 +129,8 @@ def main():
                               n_issues=-1, issues=f"COULD NOT CHECK: {e}"))
 
     out = pd.DataFrame(rows)
-    out.to_csv("preflight_report.csv", index=False)
+    os.makedirs(os.path.dirname(REPORT_PATH), exist_ok=True)
+    out.to_csv(REPORT_PATH, index=False)
 
     print("\n" + "=" * 100)
     flagged = out[out.n_issues != 0]
@@ -134,7 +142,7 @@ def main():
         for _, r in flagged.iterrows():
             print(f"  {r['name']} (task {r['task_id']}): {r['issues']}")
     print("=" * 100)
-    print(f"\nFull report written to preflight_report.csv "
+    print(f"\nFull report written to {REPORT_PATH} "
           f"(includes n_train/n_val/n_test/n_classes/min_class_frac for all 17, "
           f"not just the flagged ones).")
 

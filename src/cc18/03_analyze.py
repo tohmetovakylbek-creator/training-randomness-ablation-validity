@@ -36,17 +36,23 @@ Run on: laptop or desktop, CPU is enough.
 """
 import glob
 import os
+import sys
 
 import numpy as np
 import pandas as pd
 from scipy import stats
 
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", ".."))
+sys.path.insert(0, os.path.join(REPO_ROOT, "src", "simulation"))
 from seed_window_simgrid import crossed_anova, block_bootstrap_vwin, f_interval_share
 
 ALPHA = 0.05
 BLOCK_LEN = 1           # ordinary bootstrap -- see module docstring, point 3
 NBOOT = 1000
-ARTIFACT_DIR = "artifacts"
+MANIFEST_PATH = os.path.join(REPO_ROOT, "data", "manifests", "cc18_manifest.csv")
+ARTIFACT_DIR = os.path.join(REPO_ROOT, "artifacts")
+OUT_PATH = os.path.join(REPO_ROOT, "results", "cc18", "cc18_per_dataset_summary.csv")
 
 
 def _check_balanced_error_identity():
@@ -152,7 +158,7 @@ def analyze_dataset(npz_path, rng):
 def main():
     _check_balanced_error_identity()
 
-    manifest = pd.read_csv("manifest.csv")
+    manifest = pd.read_csv(MANIFEST_PATH)
     expected_task_ids = set(manifest.task_id.astype(int))
 
     found = {}
@@ -179,7 +185,8 @@ def main():
     rng = np.random.default_rng(20260813)
     rows = [analyze_dataset(found[tid], rng) for tid in sorted(expected_task_ids)]
     out = pd.DataFrame(rows).merge(manifest[["task_id", "name"]], on="task_id").sort_values("name")
-    out.to_csv("cc18_per_dataset_summary.csv", index=False)
+    os.makedirs(os.path.dirname(OUT_PATH), exist_ok=True)
+    out.to_csv(OUT_PATH, index=False)
 
     degenerate = out[out.balanced_error_degenerate_zero_variance | out.cross_entropy_degenerate_zero_variance]
     if len(degenerate):

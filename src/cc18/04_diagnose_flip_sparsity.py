@@ -21,11 +21,16 @@ import os
 import numpy as np
 import pandas as pd
 
-ARTIFACT_DIR = "artifacts"
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", ".."))
+MANIFEST_PATH = os.path.join(REPO_ROOT, "data", "manifests", "cc18_manifest.csv")
+ARTIFACT_DIR = os.path.join(REPO_ROOT, "artifacts")
+SUMMARY_PATH = os.path.join(REPO_ROOT, "results", "cc18", "cc18_per_dataset_summary.csv")
+OUT_PATH = os.path.join(REPO_ROOT, "results", "cc18", "cc18_flip_diagnostic.csv")
 
 
 def main():
-    manifest = pd.read_csv("manifest.csv")
+    manifest = pd.read_csv(MANIFEST_PATH)
     rows = []
 
     for path in glob.glob(os.path.join(ARTIFACT_DIR, "task_*_fold_0.npz")):
@@ -52,7 +57,7 @@ def main():
 
     out = pd.DataFrame(rows).merge(manifest[["task_id", "name"]], on="task_id")
 
-    summary_path = "cc18_per_dataset_summary.csv"
+    summary_path = SUMMARY_PATH
     if os.path.exists(summary_path):
         summary = pd.read_csv(summary_path)[["task_id", "balanced_error_seed_share",
                                                "cross_entropy_seed_share"]]
@@ -64,10 +69,11 @@ def main():
         out = out.sort_values("flip_rate_pct")
         cols = ["name", "n_test", "flip_rate_pct", "n_examples_ever_flipped",
                 "flip_rate_min_seed_pct", "flip_rate_max_seed_pct"]
-        print("(cc18_per_dataset_summary.csv not found in this directory -- showing flip "
-              "rates alone; re-run next to it to see the correlation with seed share directly)")
+        print(f"({SUMMARY_PATH} not found -- showing flip rates alone; run "
+              f"03_analyze.py first to see the correlation with seed share directly)")
 
-    out.to_csv("cc18_flip_diagnostic.csv", index=False)
+    os.makedirs(os.path.dirname(OUT_PATH), exist_ok=True)
+    out.to_csv(OUT_PATH, index=False)
     print(out[cols].to_string(index=False))
 
     if "balanced_error_seed_share" in out.columns:
