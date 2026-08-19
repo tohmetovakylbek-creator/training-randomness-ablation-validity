@@ -1,0 +1,44 @@
+{
+  "house": 1,
+  "n_test_windows": 218,
+  "gate_mean": 0.7133793234825134,
+  "gate_std": 0.039666224271059036,
+  "correlations": {
+    "gate": {
+      "window_volatility": {
+        "spearman_rho": 0.40846334763640285,
+        "p_value": 3.5658010271112644e-10
+      },
+      "window_cv": {
+        "spearman_rho": -0.5096639830795596,
+        "p_value": 8.200188639982095e-16
+      },
+      "anomaly_score": {
+        "spearman_rho": -0.5472056311893014,
+        "p_value": 1.9953294234140156e-18
+      },
+      "imf6_energy_frac": {
+        "spearman_rho": 0.19698795773828104,
+        "p_value": 0.0034953643200791706
+      }
+    },
+    "skip_advantage": {
+      "window_volatility": {
+        "spearman_rho": -0.3520865898443767,
+        "p_value": 9.263706797726603e-08
+      },
+      "window_cv": {
+        "spearman_rho": 0.2930503761867503,
+        "p_value": 1.0878945137610507e-05
+      },
+      "anomaly_score": {
+        "spearman_rho": 0.4212266508520162,
+        "p_value": 8.698867084201176e-11
+      },
+      "imf6_energy_frac": {
+        "spearman_rho": -0.17236829988839786,
+        "p_value": 0.010788778531679597
+      }
+    }
+  }
+}

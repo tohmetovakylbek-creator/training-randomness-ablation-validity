@@ -80,17 +80,56 @@ importable from its new location — run everything from this directory
   `sanity_etth1.py` (ETTh1 pipeline-transfer sanity check; not part of the
   variance decomposition or meta-analysis).
 
+## Results data
+
+Compact per-unit JSON/CSV summaries live in `results/household/`, mirroring
+`results/cc18/`'s layout: one subfolder per experiment
+(`factorial/`, `factorial_2comp/`, `factorial_5seed/`, `variance/`,
+`variance_17/`, `meta/`, `meta_14/`, `meta_16/`, `meta_17/`, `meta_2comp/`,
+`intervention/`, `intervention_5seed/`, `intervention_legacy/`, `paths/`,
+`agg/`, `diagnostics/`, `figures/`, `ecl/`, `ecl_fullW/`, `generality/`,
+`norm/`, `skip_attribution/`), plus loose root-level files
+(`results_master.json` — the single source of truth the manuscript's Section
+5.4.2 numbers were checked against; `factorial_norm.json`;
+`ecl_eligibility.csv`/`ecl_selection.json`; `meanemb_*.json`,
+`probe_*.json`; `mae_const_households.json`).
+
+Verified against the manuscript: `results_master.json`'s 17 units are
+exactly the REFIT (2,4,6,9,10) + SHEERM (1,2,3,4,5,8,9,10,11,12,13) +
+UK-DALE (1) households from Table 2, with median `share_seed` = 82.8% and
+median per-unit effect -0.24% of household error — matching the manuscript's
+"median 83%" seed share and the sign/magnitude of the -0.26% pooled effect.
+
+Per-window/per-seed `.npz`/`.npy` arrays (gitignored, like
+`artifacts/cc18_per_example_artifacts.zip`) are bundled in
+`artifacts/household_per_window_artifacts.zip`, checksummed in
+`CHECKSUMS.sha256`. Its internal layout mirrors `results/household/`'s
+subfolder names (minus the `results_`/`results/` prefix), so a file dropped
+back into the matching `results/household/<name>/` subfolder sits next to
+its JSON summary.
+
+**Deliberately excluded** from both the code and results additions, as
+outside this paper's reported scope (matches the excluded scripts, above):
+`results/ukdale_vmd_patchtst_aswa/` (43MB of model checkpoints — not needed
+to verify any reported number, only to rerun `intervention.py` without
+retraining), `results_full/` and `results_sheerm/results.json` /
+`results_refit_unified/results.json` (products of the excluded
+`posthoc_full_vs_lean.py`/`run_all.py`, a different "full vs lean" framing
+than the current factorial design — note this means the `results_sheerm`
+name is misleading: it is not the SHEERM household results used in the
+paper, those are in `results/household/{factorial,variance,meta,...}`),
+and `results_smoke/`, `results_timing*/`, `results_tuning/` (scratch runs).
+
 ## Not yet included
 
-- The `results/` tree (per-window/per-seed arrays and JSON summaries this
-  code produces) has not yet been curated into the repository — it needs the
-  same compact-vs-bulk triage `artifacts/cc18_per_example_artifacts.zip`
-  already got for CC18.
 - No file named `results_manifest.csv` — the machine-readable per-experiment
-  index the manuscript's Reproducibility section describes — exists in the
-  author's original project. It does not currently exist anywhere and needs
-  to be either located or generated before the manuscript's claim about it is
-  accurate.
+  index (domain, units, seed count, evaluation count, component, outcome,
+  inferential status, source artifact) that the manuscript's Reproducibility
+  section and Supplementary Table S1 describe — exists anywhere in the
+  recovered project. It needs to be either located or generated before the
+  manuscript's claim about it is accurate; `results_master.json` is close for
+  the household study alone but doesn't cover ECL, generality checks, or
+  CC18, and isn't in the S1 registry's column format.
 - A handful of scripts present in the original project were intentionally
   left out as outside this paper's reported scope: `ablation.py`,
   `tune_identity_lr.py`, `posthoc_full_vs_lean.py`, `run_all.py`.
