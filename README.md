@@ -8,7 +8,7 @@ The study quantifies how stochastic training and finite evaluation samples affec
 
 ## Repository status
 
-This repository is an author working package. It currently contains the manuscript, the complete OpenML-CC18 analysis package, compact result tables, and selected energy-domain analyses. Additional energy-domain provenance records and archival references will be added before submission.
+This repository is an author working package. It currently contains the manuscript, the complete OpenML-CC18 analysis package, compact result tables, and the energy-domain (household/ECL/generality-check) source code. The energy-domain **results** (per-window/per-seed arrays, compact summaries, and a machine-readable results manifest) have not yet been curated into the repository; see `src/household/README.md` for what's missing there.
 
 ## Current layout
 
@@ -16,6 +16,7 @@ This repository is an author working package. It currently contains the manuscri
 - `data/manifests/` - dataset-selection manifests; no restricted raw data.
 - `data/processed/` - compact derived inputs suitable for version control.
 - `src/cc18/` - OpenML-CC18 selection, training, analysis, and diagnostic code.
+- `src/household/` - household (UK-DALE/REFIT/SHEERM), ECL replication, and PatchTST/BiLSTM generality-check code; see its own README for the file map.
 - `src/meta_analysis/` - REML and modified Hartung-Knapp pooling.
 - `src/simulation/` - simulation-based power and coverage analysis.
 - `results/cc18/` - per-dataset CC18 summaries and flip diagnostics.
