@@ -8,7 +8,7 @@ The study quantifies how stochastic training and finite evaluation samples affec
 
 ## Repository status
 
-This repository is an author working package. It currently contains the manuscript, the complete OpenML-CC18 analysis package, compact result tables, and selected energy-domain analyses. Additional energy-domain provenance records and archival references will be added before submission.
+This repository is an author working package. It currently contains the manuscript, the complete OpenML-CC18 analysis package, and the energy-domain (household/ECL/generality-check) source code and results, plus a reconstructed `results/results_manifest.csv` (see `docs/reproducibility.md` for its provenance and why it should be reviewed rather than assumed correct). Excluded by design: model checkpoints, and legacy/scratch runs superseded by the current factorial-design pipeline — see `src/household/README.md` for the full account of what's in, what's out, and why.
 
 ## Current layout
 
@@ -16,9 +16,11 @@ This repository is an author working package. It currently contains the manuscri
 - `data/manifests/` - dataset-selection manifests; no restricted raw data.
 - `data/processed/` - compact derived inputs suitable for version control.
 - `src/cc18/` - OpenML-CC18 selection, training, analysis, and diagnostic code.
+- `src/household/` - household (UK-DALE/REFIT/SHEERM), ECL replication, and PatchTST/BiLSTM generality-check code; see its own README for the file map.
 - `src/meta_analysis/` - REML and modified Hartung-Knapp pooling.
 - `src/simulation/` - simulation-based power and coverage analysis.
 - `results/cc18/` - per-dataset CC18 summaries and flip diagnostics.
+- `results/household/` - per-unit household/ECL/generality-check summaries; see `src/household/README.md`.
 - `manuscript/` - manuscript and Supplement drafts.
 - `docs/` - protocol classification, deviation log, and reproducibility notes.
 

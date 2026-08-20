@@ -1,0 +1,44 @@
+{
+  "house": 4,
+  "n_test_windows": 23,
+  "gate_mean": 0.574049711227417,
+  "gate_std": 0.007602250669151545,
+  "correlations": {
+    "gate": {
+      "window_volatility": {
+        "spearman_rho": -0.4061264822134388,
+        "p_value": 0.054491533970788666
+      },
+      "window_cv": {
+        "spearman_rho": -0.7282608695652173,
+        "p_value": 8.154809120247798e-05
+      },
+      "anomaly_score": {
+        "spearman_rho": 0.24802371541501977,
+        "p_value": 0.2538330249039902
+      },
+      "imf6_energy_frac": {
+        "spearman_rho": -0.001976284584980237,
+        "p_value": 0.9928595497613635
+      }
+    },
+    "skip_advantage": {
+      "window_volatility": {
+        "spearman_rho": -0.4031620553359684,
+        "p_value": 0.05645077604087721
+      },
+      "window_cv": {
+        "spearman_rho": -0.22628458498023715,
+        "p_value": 0.29915424751581154
+      },
+      "anomaly_score": {
+        "spearman_rho": 0.3764822134387352,
+        "p_value": 0.07661601644672122
+      },
+      "imf6_energy_frac": {
+        "spearman_rho": 0.26976284584980237,
+        "p_value": 0.21319580617720293
+      }
+    }
+  }
+}

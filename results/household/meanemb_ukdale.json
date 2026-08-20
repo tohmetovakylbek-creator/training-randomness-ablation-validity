@@ -1,0 +1,62 @@
+[
+  {
+    "unit": "1",
+    "seed": 42,
+    "emb_param": "vmd_encoder.mode_embed",
+    "mae_intact": 148.0208740234375,
+    "mae_mean": 148.22947692871094,
+    "mae_zero": 149.27273559570312,
+    "delta_mean": 0.2086029052734375,
+    "delta_zero": 1.251861572265625,
+    "emb_norm_orig": 0.3188183009624481,
+    "emb_norm_mean": 0.1839883029460907
+  },
+  {
+    "unit": "1",
+    "seed": 7,
+    "emb_param": "vmd_encoder.mode_embed",
+    "mae_intact": 148.67709350585938,
+    "mae_mean": 149.29525756835938,
+    "mae_zero": 149.42190551757812,
+    "delta_mean": 0.6181640625,
+    "delta_zero": 0.74481201171875,
+    "emb_norm_orig": 0.24328166246414185,
+    "emb_norm_mean": 0.1316639482975006
+  },
+  {
+    "unit": "1",
+    "seed": 13,
+    "emb_param": "vmd_encoder.mode_embed",
+    "mae_intact": 153.90968322753906,
+    "mae_mean": 152.63888549804688,
+    "mae_zero": 152.9168243408203,
+    "delta_mean": -1.2707977294921875,
+    "delta_zero": -0.99285888671875,
+    "emb_norm_orig": 0.32037508487701416,
+    "emb_norm_mean": 0.17384406924247742
+  },
+  {
+    "unit": "1",
+    "seed": 99,
+    "emb_param": "vmd_encoder.mode_embed",
+    "mae_intact": 148.41485595703125,
+    "mae_mean": 148.90093994140625,
+    "mae_zero": 148.6337890625,
+    "delta_mean": 0.486083984375,
+    "delta_zero": 0.21893310546875,
+    "emb_norm_orig": 0.33172255754470825,
+    "emb_norm_mean": 0.1710398644208908
+  },
+  {
+    "unit": "1",
+    "seed": 2025,
+    "emb_param": "vmd_encoder.mode_embed",
+    "mae_intact": 147.9578857421875,
+    "mae_mean": 148.26641845703125,
+    "mae_zero": 148.86358642578125,
+    "delta_mean": 0.30853271484375,
+    "delta_zero": 0.90570068359375,
+    "emb_norm_orig": 0.31533077359199524,
+    "emb_norm_mean": 0.15643270313739777
+  }
+]
