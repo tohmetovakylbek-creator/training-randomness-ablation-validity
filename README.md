@@ -36,16 +36,33 @@ The 17 per-task NPZ files used to reconstruct the CC18 summaries are bundled in 
 
 ## Reproducibility
 
-The CC18 pipeline is ordered as follows:
+Clone the repository, enter its root directory, and install the required dependencies:
 
-1. `src/cc18/00_preflight_check.py`
-2. `src/cc18/01_select_datasets.py`
-3. `src/cc18/02_run_experiment.py`
-4. `src/cc18/03_analyze.py`
-5. `src/cc18/04_diagnose_flip_sparsity.py`
-6. `src/meta_analysis/05_pool_reml_hk.py`
+```bash
+git clone https://github.com/tohmetovakylbek-creator/training-randomness-ablation-validity.git
+cd training-randomness-ablation-validity
+pip install -r requirements.txt
+```
 
-Run configuration and dataset-selection provenance are recorded under `configs/` and `data/manifests/`.
+The per-task CC18 artifacts are distributed as a compressed archive. Extract them before running the analysis:
+
+```bash
+unzip artifacts/cc18_per_example_artifacts.zip -d artifacts
+```
+
+Run the CC18 analysis pipeline from the repository root:
+
+```bash
+python src/cc18/03_analyze.py
+python src/cc18/04_diagnose_flip_sparsity.py
+python src/meta_analysis/05_pool_reml_hk.py
+```
+
+This pipeline reproduces:
+
+- `results/cc18/cc18_per_dataset_summary.csv`;
+- `results/cc18/cc18_flip_diagnostic.csv`;
+- the pooled effects reported in Table 7 of the manuscript.
 
 ## Licensing
 
