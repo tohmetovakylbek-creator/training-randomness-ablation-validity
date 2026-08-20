@@ -3,7 +3,7 @@
 Reproducibility repository for:
 
 > **Training Randomness in Architecture Ablations: A Crossed Seed–Window Analysis with Preregistered Replication**
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21935720.svg)](https://doi.org/10.5281/zenodo.21935720)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21935719.svg)](https://doi.org/10.5281/zenodo.21935719)
 The study quantifies how stochastic training and finite evaluation samples affect architectural ablations in decomposition-based load forecasting. It includes a preregistered second-domain replication and a non-energy feature-identity ablation on 17 OpenML-CC18 classification tasks.
 
 ## Repository status
